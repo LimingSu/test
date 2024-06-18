@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Tree Classifier of MCR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        label, input, button, select {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, button, select {
+            padding: 8px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Decision Tree Classifier</h1>
+    <form id="classifierForm">
+        <label for="DepressiveSymptoms">Depressive symptoms:</label>
+        <select id="DepressiveSymptoms">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+
+        <label for="EducationLevel">Education level:</label>
+        <select id="EducationLevel">
+            <option value="PrimarySchoolAndAbove">Primary school and above</option>
+            <option value="Illiteracy">Illiteracy</option>
+        </select>
+
+        <label for="NutritionalStatus">Nutritional status:</label>
+        <select id="NutritionalStatus">
+            <option value="NonMalnutrition">Non-malnutrition</option>
+            <option value="MalnutritionOrRisk">Malnutrition or Malnutrition risk</option>
+        </select>
+
+        <label for="SocialEngagement">Social engagement:</label>
+        <select id="SocialEngagement">
+            <option value="Regular">Regular</option>
+            <option value="Irregular">Irregular</option>
+        </select>
+
+        <label for="PhysicalActivityLevel">Physical activity level:</label>
+        <select id="PhysicalActivityLevel">
+            <option value="High">High</option>
+            <option value="LowOrModerate">Low or Moderate</option>
+        </select>
+
+        <label for="PurposeInLife">Purpose in life (Points):</label>
+        <input type="number" id="PurposeInLife" value="22">
+
+        <label for="Age">Age (Years):</label>
+        <input type="number" id="Age" value="30">
+
+        <button type="button" onclick="showPrediction()">Predict</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        function classify(input) {
+    if (input.DepressiveSymptoms === "No") {
+        if (input.EducationLevel === "PrimarySchoolAndAbove") {
+            if (input.NutritionalStatus === "NonMalnutrition") {
+                if (input.Age < 74) {
+                    return "Non-MCR, Low Risk of MCR";
+                } else if (input.Age >= 74 && input.Age < 75) {
+                    return "Non-MCR, Low Risk of MCR";
+                } else if (input.Age >= 75) {
+                    return "Non-MCR, Low Risk of MCR";
+                }
+            } else { // Malnutrition or Malnutrition risk
+                return "MCR, High Risk of MCR";
+            }
+        } else { // Illiteracy
+            if (input.Age < 68) {
+                return "Non-MCR, Low Risk of MCR";
+            } else if (input.Age >= 68) {
+                return "Non-MCR, Low Risk of MCR";
+            }
+        }
+    } else { // DepressiveSymptoms Yes
+        return "MCR, High Risk of MCR";
+    }
+}
+      
+        function showPrediction() {
+            var input = {
+                DepressiveSymptoms: document.getElementById('DepressiveSymptoms').value,
+                EducationLevel: document.getElementById('EducationLevel').value,
+                NutritionalStatus: document.getElementById('NutritionalStatus').value,
+                SocialEngagement: document.getElementById('SocialEngagement').value,
+                PhysicalActivityLevel: document.getElementById('PhysicalActivityLevel').value,
+                PurposeInLife: parseInt(document.getElementById('PurposeInLife').value),
+                Age: parseInt(document.getElementById('Age').value)
+            };
+            var result = classify(input);
+            document.getElementById('result').textContent = 'Prediction: ' + result;
+        }
+    </script>
+</body>
+</html>
